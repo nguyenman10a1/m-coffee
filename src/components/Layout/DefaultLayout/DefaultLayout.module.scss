@@ -1,0 +1,15 @@
+.container {
+    // background-color: red;
+    display: flex;
+    width: 100%;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.content {
+    flex: 1;
+    background-color: aqua;
+    min-height: 1000px;
+}

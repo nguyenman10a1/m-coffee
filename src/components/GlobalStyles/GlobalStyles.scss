@@ -9,12 +9,14 @@
     --font-family: "ProximaNova", sans-serif;
 
     // Default layout
-    --default-layout-header-height: 60px;
-    --default-layout-width: 1150px;
-    --default-layout-horizontal-spacer: 24px;
+    --default-layout-sidebar-height: 1000px;
+    --default-layout-sidebar-width: 200px;
+    --default-layout-header-height: 120px;
 }
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
