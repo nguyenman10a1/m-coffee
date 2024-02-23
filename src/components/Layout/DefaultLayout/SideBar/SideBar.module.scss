@@ -1,7 +1,19 @@
-.container {
+.sidebar {
     width: var(--default-layout-sidebar-width, 200px);
     min-height: var(--default-layout-sidebar-height, 1000px);
+    padding: 8px;
     display: flex;
-    justify-content: center;
-    background-color: #ccc;
+    flex-direction: column;
+    // background-image: linear-gradient(to left, #d5b0a2, #feb47b);
+    background-color: #d5b0a2;
+    background-image: linear-gradient(62deg, #d5b0a2 0%, #feb47b 100%);
+}
+
+.shopname {
+    color: #aa715a;
+    text-align: center;
+    // align-items: center;
+    font-weight: 800;
+    font-size: 2.8rem;
+    margin: 0 10px 20px 0px;
 }

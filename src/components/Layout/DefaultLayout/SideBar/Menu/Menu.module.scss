@@ -1,0 +1,38 @@
+.menu-item {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700px;
+    margin: 5px;
+    padding: 5px 10px;
+    gap: 20px;
+    color: var(--text-color);
+
+    &:hover {
+        background-color: #c99580;
+        border-radius: 30px;
+        color: #fff;
+        padding: 5px;
+    }
+
+    &.active {
+        background-color: #aa715a;
+        border-radius: 30px;
+        color: #fff;
+        padding: 5px;
+    }
+}
+
+.title {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    color: #ccc;
+    // padding-left: 20px;
+}
