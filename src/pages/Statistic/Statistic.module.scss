@@ -1,0 +1,155 @@
+.num-data-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.num-data {
+    flex: 1;
+    background-color: #fdf9f7;
+    border-radius: 15px 15px 0 0;
+    margin: 10px;
+    width: 100%;
+    height: 120px;
+}
+
+.num-name {
+    color: #232424;
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 2.2rem;
+    font-weight: 400;
+}
+
+.num-info {
+    color: #232424;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.num-icon {
+    font-size: 40px;
+}
+
+.num-order {
+    font-size: 28px;
+}
+
+.info-btn {
+    background-color: #aa715a;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #fff;
+
+    &:hover {
+        background-color: #8c543d;
+        cursor: pointer;
+    }
+}
+
+.graph-data-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
+
+.graph {
+    flex: 2;
+    background-color: #fdf9f7;
+    margin-top: 10px;
+    margin-right: 15px;
+    border-radius: 20px;
+}
+
+// .graph-content {
+//     width: 100%;
+//     background-color: red;
+// }
+
+.graph-title {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 5px;
+}
+
+.graph-name {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.graph-see-btn {
+    color: #a66951;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.trend {
+    flex: 1;
+    background-color: #fdf9f7;
+    border-radius: 15px;
+    // margin: 10px 0;
+    margin-top: 10px;
+}
+
+.trend-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.trend-title-name {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.trend-title-btn {
+    color: #a66951;
+    font-weight: bold;
+}
+
+.trend-content {
+    display: flex;
+    justify-content: center;
+}
+
+.trend-img {
+    flex: 1;
+}
+
+.trend-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 2;
+    margin: 5px;
+}
+
+.trend-name {
+    font-weight: bold;
+}
+
+.trend-price {
+    color: #a4a4a4;
+}
+
+.trend-quantity {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    font-weight: bold;
+    align-items: center;
+}
+
+.coffee-img {
+    height: 50px;
+    width: 50px;
+    display: flex;
+    margin: 10px;
+}

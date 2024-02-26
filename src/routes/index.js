@@ -3,8 +3,8 @@ import { HeaderOnly } from "../components/Layout";
 import Home from "../pages/Home";
 import Menu from "../pages/Menu";
 import Statistic from "../pages/Statistic";
-import Orders from "../pages/Statistic";
-import Settings from "../pages/Statistic";
+import Orders from "../pages/Orders";
+import Settings from "../pages/Settings";
 import Upload from "../pages/Upload";
 
 const publicRoutes = [
