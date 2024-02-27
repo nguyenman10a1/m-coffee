@@ -4,6 +4,7 @@ const routes = {
     statistic: "/statistic",
     orders: "/orders",
     settings: "/settings",
+    logout: "/logout",
     upload: "/upload",
 };
 
