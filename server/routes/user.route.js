@@ -1,10 +1,14 @@
 import express from "express";
-import * as userCtrl from "../controllers/user.controller";
-import isAuthenticated from "../middlewares/authenticate";
-import validate from "../config/joi.validate";
-import schema from "../utils/validator";
+import * as userCtrl from "../controllers/user.controller.js";
+import isAuthenticated from "../middlewares/authenticate.js";
+import validate from "../config/joi.validate.js";
+import schema from "../utils/validator.js";
 
 const router = express.Router();
+
+router.route("/").get((req, res) => {
+    res.json({ message: "Hello Man" });
+});
 
 /**
  * @swagger

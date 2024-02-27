@@ -1,4 +1,6 @@
-require("dotenv").config();
+// require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 export default {
     client: process.env.DB_CLIENT,

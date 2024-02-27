@@ -5,11 +5,13 @@ import cors from "cors";
 import compression from "compression";
 import methodOverride from "method-override";
 
-import constant from "../config/directory";
+import constant from "../config/directory.js";
 
 const app = express();
 
-require("dotenv").config();
+// require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 app.set("port", process.env.APP_PORT || 4000);
 app.set("host", process.env.APP_HOST || "localhost");

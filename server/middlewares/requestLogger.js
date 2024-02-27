@@ -1,4 +1,4 @@
-import logger from "../config/winston";
+import logger from "../config/winston.js";
 
 export default (req, res, next) => {
     // TODO response body

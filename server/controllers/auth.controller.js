@@ -1,8 +1,8 @@
 import HttpStatus from "http-status-codes";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import User from "../models/user.model";
-import logger from "../config/winston";
+import User from "../models/user.model.js";
+import logger from "../config/winston.js";
 
 /**
  * Returns jwt token if valid email and password is provided

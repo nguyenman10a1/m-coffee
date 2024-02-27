@@ -1,7 +1,10 @@
 "use strict";
-const webpack = require("webpack");
-const path = require("path");
-const Dotenv = require("dotenv-webpack");
+// const webpack = require("webpack");
+// const path = require("path");
+// const Dotenv = require("dotenv-webpack");
+import webpack from "webpack";
+import path from "path";
+import Dotenv from "dotenv-webpack";
 
 /*
  * so process.cwd() is used instead to determine the correct base directory
@@ -9,12 +12,12 @@ const Dotenv = require("dotenv-webpack");
  */
 const CURRENT_WORKING_DIR = process.cwd();
 
-const config = {
+const webpackConfig = {
     context: path.resolve(CURRENT_WORKING_DIR, "client"),
     entry: {
         app: [
             "webpack-hot-middleware/client", // bundle the client for hot reloading
-            "./main.js", // the entry point of app
+            "./index.js", // the entry point of app
         ],
     },
     mode: "development",
@@ -58,4 +61,4 @@ const config = {
     devtool: "inline-source-map",
 };
 
-module.exports = config;
+export default webpackConfig;

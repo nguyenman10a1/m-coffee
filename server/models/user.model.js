@@ -1,12 +1,11 @@
-import bookshelf from '../config/bookshelf';
+import bookshelf from "../config/bookshelf.js";
 
-const TABLE_NAME = 'users';
+const TABLE_NAME = "users";
 
 /**
  * User model.
  */
 class User extends bookshelf.Model {
-
     /**
      * Get table name.
      */
@@ -22,7 +21,7 @@ class User extends bookshelf.Model {
     }
 
     verifyPassword(password) {
-        return this.get('password') === password;
+        return this.get("password") === password;
     }
 }
 

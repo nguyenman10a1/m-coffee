@@ -8,10 +8,10 @@ const Dotenv = require("dotenv-webpack");
  */
 const CURRENT_WORKING_DIR = process.cwd();
 
-var config = {
+var webpackConfig = {
     context: path.resolve(CURRENT_WORKING_DIR, "client"),
     entry: {
-        app: ["./main.js"],
+        app: ["./index.js"],
     },
     mode: "production",
     output: {
@@ -42,4 +42,4 @@ var config = {
     devtool: "hidden-source-map",
 };
 
-module.exports = config;
+export default webpackConfig;

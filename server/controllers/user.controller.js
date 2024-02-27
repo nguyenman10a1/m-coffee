@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import HttpStatus from "http-status-codes";
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 
 /**
  * Find all the users

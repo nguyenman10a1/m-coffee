@@ -20,7 +20,8 @@ const swaggerOptions = {
     // import swaggerDefinitions
     swaggerDefinition: swaggerDefinition,
     // path to the API docs
-    apis: [path.join(__dirname, "/../routes/*.js")],
+    // apis: [path.join(__dirname, "/../routes/*.js")],
+    apis: [path.join(new URL(import.meta.url).pathname, "/../routes/*.js")],
 };
 
 /**
