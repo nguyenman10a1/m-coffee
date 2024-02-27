@@ -2,10 +2,15 @@
 
 # dependencies
 /node_modules
+/server/node_modules
 /.pnp
 .pnp.js
 .env
-/server/node_modules
+.env.example
+
+/.idea
+/logs
+/dist
 
 # testing
 /coverage
