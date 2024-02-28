@@ -1,22 +1,25 @@
 {
-    "env": {
-        "browser": true,
-        "node": true,
-        "jasmine": true
-    },
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "extends": "airbnb",
     "parser": "babel-eslint",
+    "env": {
+        "browser": true
+    },
     "rules": {
         "semi": 2,
-        "curly": 2,
+        "indent": "off",
         "eqeqeq": 2,
         "spaced-comment": 2,
         "space-infix-ops": 2,
         "newline-before-return": 2,
-        "linebreak-style": [2, "unix"],
-        "camelcase": [2, { "properties": "never" }],
-        "quotes": [2, "single", { "allowTemplateLiterals": true }],
+        "linebreak-style": [0, "unix"],
+        "camelcase": [0, { "properties": "never" }],
+        "quotes": [2, "double", { "allowTemplateLiterals": true }],
         "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error"
+        "react/jsx-uses-vars": "error",
+        "import/no-unresolved": "off",
+        "global-require": "off",
+        "func-names": "off",
+        "object-curly-newline": ["error", { "multiline": true, "consistent": true }],
+        "allowNamedFunctions": true
     }
 }
