@@ -2,7 +2,7 @@ const { ApplicationError } = require("@util/customErrors");
 const connection = require("@util/database");
 
 const getAll = async (req, res) => {
-    const sql = `SELECT * FROM books WHERE deleted_at IS NULL`;
+    const sql = `SELECT * FROM orders WHERE deleted_at IS NULL`;
 
     connection.query(sql, (err, result, fields) => {
         if (err) {
@@ -35,7 +35,7 @@ const create = async (req, res) => {
 
 const destroy = async (req, res) => {
     const sql = `
-    UPDATE books SET deleted_at=now() 
+    UPDATE orders SET deleted_at=now() 
     WHERE id=?
   `;
 
@@ -50,7 +50,7 @@ const destroy = async (req, res) => {
 };
 
 const read = async (req, res) => {
-    const sql = `UPDATE books SET times_read = times_read + 1 WHERE id=?`;
+    const sql = `UPDATE orders SET times_read = times_read + 1 WHERE id=?`;
 
     connection.query(sql, [req.params.id], (err, result, fields) => {
         if (err) {
@@ -63,8 +63,8 @@ const read = async (req, res) => {
     });
 };
 
-const getBook = async (req, res) => {
-    const sql = `SELECT * FROM books WHERE id=? AND deleted_at IS NULL LIMIT 1`;
+const getOne = async (req, res) => {
+    const sql = `SELECT * FROM orders WHERE id=? AND deleted_at IS NULL LIMIT 1`;
 
     connection.query(sql, [req.params.id], (err, result, fields) => {
         if (err) {
@@ -75,7 +75,7 @@ const getBook = async (req, res) => {
     });
 };
 
-const updateBook = async (req, res) => {
+const update = async (req, res) => {
     const { id } = req.params;
 
     const request = (({ title, author, isbn_code, plot, times_read }) => ({
@@ -86,7 +86,7 @@ const updateBook = async (req, res) => {
         times_read,
     }))(req.body.book);
 
-    const sql = `UPDATE books SET ? WHERE id=?`;
+    const sql = `UPDATE orders SET ? WHERE id=?`;
 
     connection.query(sql, [request, id], (err, result, fields) => {
         if (err) {
@@ -103,6 +103,6 @@ module.exports = {
     create,
     destroy,
     read,
-    getBook,
-    updateBook,
+    getOne,
+    update,
 };

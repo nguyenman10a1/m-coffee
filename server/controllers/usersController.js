@@ -2,7 +2,7 @@ const { ApplicationError } = require("@util/customErrors");
 const connection = require("@util/database");
 
 const getAll = async (req, res) => {
-    const sql = `SELECT * FROM users`;
+    const sql = `SELECT * FROM users WHERE deleted_at IS NULL`;
 
     connection.query(sql, function (err, result, fields) {
         if (err) {

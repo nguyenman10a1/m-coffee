@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon index.js",
         "start": "cross-env NODE_ENV=production node index.js",
+        "start app": "react-app-rewired start",
         "build": "webpack --mode=production",
         "lint": "eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
