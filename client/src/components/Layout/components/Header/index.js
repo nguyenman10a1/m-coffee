@@ -1,5 +1,5 @@
-// import { useState } from "react";
-// import DatePicker from "react-datepicker";
+import { useState, useEffect } from "react";
+import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -14,12 +14,12 @@ import styles from "./Header.module.scss";
 const cx = classNames.bind(styles);
 
 function Header() {
-    // const [startDate, setDate] = useState(new Date());
-    // const today = new Date();
+    const [date, setDate] = useState(dayjs(new Date()));
 
-    // const selectDateHandler = (d) => {
-    //     setDate(d);
-    // };
+    useEffect(() => {
+        console.log("Choose Date=======:", date);
+        console.log("Choose Date=======:", date.format("YYYY-MM-DD"));
+    }, [date]);
 
     return (
         <div className={cx("header")}>
@@ -28,13 +28,6 @@ function Header() {
                 <div className={cx("title-content")}>Chosse The Category</div>
             </div>
             <div className={cx("date-picker")}>
-                {/* <DatePicker
-                    dateFormat="yyyy/MM/dd"
-                    selected={startDate}
-                    onChange={selectDateHandler}
-                    minDate={today}
-                    todayButton={"Today"}
-                /> */}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         sx={{
@@ -43,6 +36,9 @@ function Header() {
                                 fontSize: "1.5rem",
                             },
                         }}
+                        label="Controlled picker"
+                        value={date}
+                        onChange={(newValue) => setDate(newValue)}
                     />
                 </LocalizationProvider>
             </div>

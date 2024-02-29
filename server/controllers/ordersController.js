@@ -4,6 +4,7 @@ const connection = require("@util/database");
 const getAll = async (req, res) => {
     let currentDate = new Date();
     const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
+    console.log("formattedCurr======", formattedCurrentDate);
 
     const sql = `SELECT COUNT(*) AS number_of_orders
                     FROM orders
@@ -23,13 +24,54 @@ const getIncome = async (req, res) => {
     const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
 
     const sql = `SELECT SUM(sub_total) AS daily_income
-                    FROM order_details WHERE DATE(created_at) = '2024-02-28';`;
+                    FROM order_details WHERE DATE(created_at) = CURDATE();`;
     connection.query(sql, (err, result) => {
         if (err) {
             throw new ApplicationError(`error: ${err.message}`, 400);
         }
         console.log("income============================", result);
         res.send(result[0]);
+    });
+};
+
+const getMostOrdered = async (req, res) => {
+    const sql = `SELECT products.id, 
+                        products.product_name, 
+                        SUM(order_details.quantity) AS total_sold, 
+                        SUM(order_details.sub_total) AS total_revenue
+                FROM order_details
+                JOIN products ON order_details.product_id = products.id
+                GROUP BY
+                    products.id, products.product_name
+                ORDER BY total_sold DESC
+                LIMIT 5;`;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            throw new ApplicationError(`error: ${err.message}`, 400);
+        }
+        console.log("getMostOrdered============================", result);
+        res.send(result);
+    });
+};
+
+const getMonthRevenue = async (req, res) => {
+    const sql = `SELECT
+                    DATE(created_at) AS sale_date,
+                    SUM(sub_total) AS daily_revenue
+                FROM
+                    order_details
+                WHERE
+                    DATE(created_at) >= CURDATE() - INTERVAL 30 DAY
+                GROUP BY
+                    DATE(created_at)
+                ORDER BY
+                    DATE(created_at) DESC;`;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            throw new ApplicationError(`error: ${err.message}`, 400);
+        }
+        console.log("getMonthRevenue============================", result);
+        res.send(result);
     });
 };
 
@@ -121,6 +163,8 @@ const update = async (req, res) => {
 module.exports = {
     getAll,
     getIncome,
+    getMostOrdered,
+    getMonthRevenue,
     create,
     destroy,
     read,

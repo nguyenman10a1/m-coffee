@@ -1,23 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileInvoice, faCoins, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { LineChart } from "@mui/x-charts/LineChart";
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Brush } from "recharts";
 
 import Cappuccino from "../../assets/images/cappuccino.png";
-import Latte from "../../assets/images/latte.png";
-import Frappuccino from "../../assets/images/frappe.png";
-import Mocha from "../../assets/images/mocha.png";
-import MilkCoffee from "../../assets/images/milkcoffee.png";
+// import Latte from "../../assets/images/latte.png";
+// import Frappuccino from "../../assets/images/frappe.png";
+// import Mocha from "../../assets/images/mocha.png";
+// import Milkcoffee from "../../assets/images/milkcoffee.png";
 
 import classNames from "classnames/bind";
 import styles from "./Statistic.module.scss";
 
 const cx = classNames.bind(styles);
-
-const xLabels = ["0:00", "2:00", "4:00", "6:00", "8:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"];
-
-const ordersData = [80, 60, 140, 100, 230, 90, 155, 135, 150, 90, 190, 120];
 
 const handleCountCustomer = () => {
     console.log("More info handleCountCustomer");
@@ -31,17 +27,54 @@ const handleCountEarning = () => {
     console.log("More info handleCountEarning");
 };
 
+function handleGraphData(inputData) {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+
+    const numberOfDaysInMonth = new Date(year, month, 0).getDate();
+
+    const graphData = [];
+
+    for (let day = 1; day <= numberOfDaysInMonth; day++) {
+        const formattedDate = `${day < 10 ? "0" : ""}${day}/${month < 10 ? "0" : ""}${month}`;
+        graphData.push(formattedDate);
+    }
+
+    console.log("inputData======", inputData);
+
+    const resultArray = graphData.map((day) => {
+        const matchingData = inputData.find((item) => {
+            const formattedDate = new Date(item.sale_date).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+            });
+            console.log("formattedDate======", formattedDate);
+            return formattedDate === day;
+        });
+
+        return {
+            name: day,
+            vnd: matchingData ? matchingData.daily_revenue : 0,
+        };
+    });
+    console.log("resultArray======", resultArray);
+
+    return resultArray;
+}
+
 function Statistic() {
     const [orders, setOrders] = useState();
     const [dailyIncome, setDailyIncome] = useState();
     const [numberOfCustomers, setNumberOfCustomers] = useState();
+    const [mostOrdered, setMostOrdered] = useState();
+    const [graphData, setGraphData] = useState([]);
 
     //get number of orders
     useEffect(() => {
         fetch("http://localhost:4000/api/orders")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.number_of_orders);
                 setOrders(data.number_of_orders);
             })
             .catch((err) => {
@@ -54,7 +87,6 @@ function Statistic() {
         fetch("http://localhost:4000/api/orders/income")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.daily_income);
                 setDailyIncome(data.daily_income);
             })
             .catch((err) => {
@@ -67,8 +99,32 @@ function Statistic() {
         fetch("http://localhost:4000/api/customers")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.number_of_customers);
                 setNumberOfCustomers(data.number_of_customers);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
+    //get trending coffee
+    useEffect(() => {
+        fetch("http://localhost:4000/api/orders/most-ordered")
+            .then((response) => response.json())
+            .then((data) => {
+                setMostOrdered(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch("http://localhost:4000/api/orders/month-revenue")
+            .then((response) => response.json())
+            .then((data) => {
+                const graphDataHandled = handleGraphData(data);
+                setGraphData(graphDataHandled);
+                console.log("graphDataHandled==", graphDataHandled);
             })
             .catch((err) => {
                 console.log(err.message);
@@ -115,66 +171,61 @@ function Statistic() {
                         <div className={cx("graph-name")}>Sales Analytics</div>
                         <div className={cx("graph-see-btn")}>See all</div>
                     </div>
-                    <LineChart
-                        className={cx("graph-content")}
-                        xAxis={[{ scaleType: "point", data: xLabels }]}
-                        series={[
-                            {
-                                data: ordersData,
-                                area: true,
-                                color: "#ddb6a6",
-                            },
-                        ]}
-                        width={830}
-                        height={350}
-                        sx={{ marginRight: "-30px" }}
-                    />
+                    {graphData ? (
+                        <ResponsiveContainer width="100%" height={360}>
+                            <AreaChart
+                                width={700}
+                                height={360}
+                                data={graphData}
+                                margin={{
+                                    top: 10,
+                                    right: 50,
+                                    left: 30,
+                                    bottom: 10,
+                                }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Area type="monotone" dataKey="vnd" stroke="#e7d1c9" fill="#e7d1c9" />
+                                <Brush
+                                    dataKey="name"
+                                    width={"100%"}
+                                    height={30}
+                                    startIndex={10}
+                                    endIndex={19}
+                                    stroke="#aa715a"
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <></>
+                    )}
                 </div>
                 <div className={cx("trend")}>
                     <div className={cx("trend-title")}>
                         <div className={cx("trend-title-name")}>Most ordered</div>
                         <div className={cx("trend-title-btn")}>See all</div>
                     </div>
-                    <div className={cx("trend-content")}>
-                        <img src={Cappuccino} alt="Cappuccino" className={cx("coffee-img")}></img>
-                        <div className={cx("trend-info")}>
-                            <div className={cx("trend-name")}>Cappuccino</div>
-                            <div className={cx("trend-price")}>$2</div>
-                        </div>
-                        <div className={cx("trend-quantity")}>240</div>
-                    </div>
-                    <div className={cx("trend-content")}>
-                        <img src={Latte} alt="Latte" className={cx("coffee-img")}></img>
-                        <div className={cx("trend-info")}>
-                            <div className={cx("trend-name")}>Latte</div>
-                            <div className={cx("trend-price")}>$2</div>
-                        </div>
-                        <div className={cx("trend-quantity")}>240</div>
-                    </div>
-                    <div className={cx("trend-content")}>
-                        <img src={Frappuccino} alt="Frappuccino" className={cx("coffee-img")}></img>
-                        <div className={cx("trend-info")}>
-                            <div className={cx("trend-name")}>Frappuccino</div>
-                            <div className={cx("trend-price")}>$2</div>
-                        </div>
-                        <div className={cx("trend-quantity")}>240</div>
-                    </div>
-                    <div className={cx("trend-content")}>
-                        <img src={Mocha} alt="Mocha" className={cx("coffee-img")}></img>
-                        <div className={cx("trend-info")}>
-                            <div className={cx("trend-name")}>Mocha</div>
-                            <div className={cx("trend-price")}>$2</div>
-                        </div>
-                        <div className={cx("trend-quantity")}>240</div>
-                    </div>
-                    <div className={cx("trend-content")}>
-                        <img src={MilkCoffee} alt="MilkCoffee" className={cx("coffee-img")}></img>
-                        <div className={cx("trend-info")}>
-                            <div className={cx("trend-name")}>Milk coffee</div>
-                            <div className={cx("trend-price")}>$2</div>
-                        </div>
-                        <div className={cx("trend-quantity")}>240</div>
-                    </div>
+                    <>
+                        {mostOrdered ? (
+                            mostOrdered.map(function (item) {
+                                return (
+                                    <div className={cx("trend-content")} key={item.id}>
+                                        <img src={Cappuccino} alt="beverage" className={cx("coffee-img")}></img>
+                                        <div className={cx("trend-info")}>
+                                            <div className={cx("trend-name")}>{item.product_name}</div>
+                                            <div className={cx("trend-price")}>{item.total_revenue}</div>
+                                        </div>
+                                        <div className={cx("trend-quantity")}>{item.total_sold}</div>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <></>
+                        )}
+                    </>
                 </div>
             </div>
         </div>
