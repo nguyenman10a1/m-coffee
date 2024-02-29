@@ -3,6 +3,10 @@ import { faFileInvoice, faCoins, faUsers } from "@fortawesome/free-solid-svg-ico
 import { useState, useEffect } from "react";
 // import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Brush } from "recharts";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import Cappuccino from "../../assets/images/cappuccino.png";
 // import Latte from "../../assets/images/latte.png";
@@ -31,9 +35,7 @@ function handleGraphData(inputData) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
-
     const numberOfDaysInMonth = new Date(year, month, 0).getDate();
-
     const graphData = [];
 
     for (let day = 1; day <= numberOfDaysInMonth; day++) {
@@ -69,6 +71,12 @@ function Statistic() {
     const [numberOfCustomers, setNumberOfCustomers] = useState();
     const [mostOrdered, setMostOrdered] = useState();
     const [graphData, setGraphData] = useState([]);
+    const [date, setDate] = useState(dayjs(new Date()));
+
+    useEffect(() => {
+        console.log("Choose Date=======:", date);
+        console.log("Choose Date=======:", date.format("YYYY-MM-DD"));
+    }, [date]);
 
     //get number of orders
     useEffect(() => {
@@ -133,6 +141,23 @@ function Statistic() {
 
     return (
         <div className={cx("statistic-page")}>
+            <div className={cx("date-picker-wrapper")}>
+                <div className={cx("date-picker")}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            sx={{
+                                width: "100%",
+                                "& .MuiInputBase-input": {
+                                    fontSize: "1.5rem",
+                                },
+                            }}
+                            label="Controlled picker"
+                            value={date}
+                            onChange={(newValue) => setDate(newValue)}
+                        />
+                    </LocalizationProvider>
+                </div>
+            </div>
             <div className={cx("num-data-wrapper")}>
                 <div className={cx("num-data")}>
                     <div className={cx("num-name")}>Total order</div>

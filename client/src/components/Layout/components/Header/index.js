@@ -14,12 +14,12 @@ import styles from "./Header.module.scss";
 const cx = classNames.bind(styles);
 
 function Header() {
-    const [date, setDate] = useState(dayjs(new Date()));
+    // const [date, setDate] = useState(dayjs(new Date()));
 
-    useEffect(() => {
-        console.log("Choose Date=======:", date);
-        console.log("Choose Date=======:", date.format("YYYY-MM-DD"));
-    }, [date]);
+    // useEffect(() => {
+    //     console.log("Choose Date=======:", date);
+    //     console.log("Choose Date=======:", date.format("YYYY-MM-DD"));
+    // }, [date]);
 
     return (
         <div className={cx("header")}>
@@ -27,7 +27,7 @@ function Header() {
                 <div className={cx("title-welcome")}>Welcome to M Coffee</div>
                 <div className={cx("title-content")}>Chosse The Category</div>
             </div>
-            <div className={cx("date-picker")}>
+            {/* <div className={cx("date-picker")}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         sx={{
@@ -41,7 +41,7 @@ function Header() {
                         onChange={(newValue) => setDate(newValue)}
                     />
                 </LocalizationProvider>
-            </div>
+            </div> */}
             <div className={cx("info")}>
                 {/* <FontAwesomeIcon className={cx("avatar")} icon={faUser} /> */}
                 <img src={AvatarImg} alt="avatar" className={cx("avatar")}></img>
