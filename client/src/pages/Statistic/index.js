@@ -1,6 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileInvoice, faCoins, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { LineChart } from "@mui/x-charts/LineChart";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import Cappuccino from "../../assets/images/cappuccino.png";
 import Latte from "../../assets/images/latte.png";
 import Frappuccino from "../../assets/images/frappe.png";
@@ -29,13 +32,56 @@ const handleCountEarning = () => {
 };
 
 function Statistic() {
+    const [orders, setOrders] = useState();
+    const [dailyIncome, setDailyIncome] = useState();
+    const [numberOfCustomers, setNumberOfCustomers] = useState();
+
+    //get number of orders
+    useEffect(() => {
+        fetch("http://localhost:4000/api/orders")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.number_of_orders);
+                setOrders(data.number_of_orders);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
+    //get daily income
+    useEffect(() => {
+        fetch("http://localhost:4000/api/orders/income")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.daily_income);
+                setDailyIncome(data.daily_income);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
+    //get number of customer
+    useEffect(() => {
+        fetch("http://localhost:4000/api/customers")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.number_of_customers);
+                setNumberOfCustomers(data.number_of_customers);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
     return (
         <div className={cx("statistic-page")}>
             <div className={cx("num-data-wrapper")}>
                 <div className={cx("num-data")}>
                     <div className={cx("num-name")}>Total order</div>
                     <div className={cx("num-info")}>
-                        <div className={cx("num-order")}>100</div>
+                        <div className={cx("num-order")}>{orders ? orders : 0}</div>
                         <FontAwesomeIcon className={cx("num-icon")} icon={faFileInvoice} />
                     </div>
                     <button className={cx("info-btn")} onClick={handleCountOrder}>
@@ -45,7 +91,7 @@ function Statistic() {
                 <div className={cx("num-data")}>
                     <div className={cx("num-name")}>Total earning</div>
                     <div className={cx("num-info")}>
-                        <div className={cx("num-order")}>$1510</div>
+                        <div className={cx("num-order")}>{dailyIncome ? dailyIncome : 0}</div>
                         <FontAwesomeIcon className={cx("num-icon")} icon={faCoins} />
                     </div>
                     <button className={cx("info-btn")} onClick={handleCountEarning}>
@@ -55,7 +101,7 @@ function Statistic() {
                 <div className={cx("num-data")}>
                     <div className={cx("num-name")}>Customer</div>
                     <div className={cx("num-info")}>
-                        <div className={cx("num-order")}>2023</div>
+                        <div className={cx("num-order")}>{numberOfCustomers ? numberOfCustomers : 0}</div>
                         <FontAwesomeIcon className={cx("num-icon")} icon={faUsers} />
                     </div>
                     <button className={cx("info-btn")} onClick={handleCountCustomer}>

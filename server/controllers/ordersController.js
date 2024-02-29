@@ -2,14 +2,34 @@ const { ApplicationError } = require("@util/customErrors");
 const connection = require("@util/database");
 
 const getAll = async (req, res) => {
-    const sql = `SELECT * FROM orders WHERE deleted_at IS NULL`;
+    let currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
 
-    connection.query(sql, (err, result, fields) => {
+    const sql = `SELECT COUNT(*) AS number_of_orders
+                    FROM orders
+                    WHERE DATE(created_at) = ${formattedCurrentDate};`;
+
+    connection.query(sql, (err, result) => {
         if (err) {
             throw new ApplicationError(`error: ${err.message}`, 400);
         }
-        console.log(fields);
-        res.send(result);
+        console.log("number of orders============================", result);
+        res.send(result[0]);
+    });
+};
+
+const getIncome = async (req, res) => {
+    const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
+
+    const sql = `SELECT SUM(sub_total) AS daily_income
+                    FROM order_details WHERE DATE(created_at) = '2024-02-28';`;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            throw new ApplicationError(`error: ${err.message}`, 400);
+        }
+        console.log("income============================", result);
+        res.send(result[0]);
     });
 };
 
@@ -100,6 +120,7 @@ const update = async (req, res) => {
 
 module.exports = {
     getAll,
+    getIncome,
     create,
     destroy,
     read,
